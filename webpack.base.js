@@ -1,5 +1,8 @@
 
 const path = require('path');
+const  HtmlWebpackPlugin = require('html-webpack-plugin');
+const  CopyWebpackPlugin = require('copy-webpack-plugin');
+const  { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 
@@ -7,16 +10,21 @@ module.exports = {
 
     //打包入口js文件
     // 1. 入口配置
-    entry: './src/index.js',
+    entry: {
+        index:'./src/pages/index/index.js',
+        about:'./src/pages/about/about.js',
+
+    },
     //2. 出口配置
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'main.js'
+        // 占位符 [hash] [name]
+        filename: '[name]_[hash].js'
     },
     //3. 模式，环境的配置，指定是开发环境还是生产环境
     // 开发 - development
     // 生产 - production
-    mode: 'development',
+    // mode: 'development',
 
     // 4. 规则配置
     module: {
@@ -33,6 +41,10 @@ module.exports = {
                 use: ['style-loader','css-loader','sass-loader']
             },
             {
+                test:/\.less$/,
+                use:['style-loader','css-loader','less-loader']
+            },
+            {
                 test: /\.(jpg|png|jpeg|gif|svg)$/,
                 use: 'url-loader'
             }
@@ -40,8 +52,29 @@ module.exports = {
     },
     //5. 插件配置
     plugins: [
-        /*new HtmlWebpackPlugin({
-            template: './src/index.html'
-        })*/
-    ]
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            filename: 'index.html',
+            chunks: ['index']
+
+        }),
+
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            filename: 'about.html',
+            chunks: ['about']
+
+        }),
+        new CopyWebpackPlugin([
+            {
+                from:'./public'
+            }
+        ]),
+
+        new CleanWebpackPlugin(),
+
+
+
+    ],
+
 };

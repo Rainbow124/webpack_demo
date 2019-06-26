@@ -5,6 +5,7 @@ import $ from 'jquery';
 // 将 css 做为模块的方式来引入
 import '../style/index.css';
 import '../style/bg.scss';
+import '../style/new.less';
 
 // 将 图片 作为模块的方式来引入
 import myImg from '../assets/ford_mustang_1979.jpg';
@@ -23,6 +24,7 @@ export default () =>{
     let divEl = $(`
     <div>你配吗？</div>
     <h1>wo de css</h1>
+    <span>小跃跃---你可以</span>
   <img src="${myImg}" alt=""/>
 `);
 
